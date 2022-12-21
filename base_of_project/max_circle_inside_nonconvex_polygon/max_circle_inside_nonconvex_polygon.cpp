@@ -21,10 +21,40 @@ MaxKrugProstogPoligona::MaxKrugProstogPoligona(QWidget *pCrtanje,
 }
 
 void MaxKrugProstogPoligona::pokreniAlgoritam() {
-    // Slozenost ovakvog (Gremovog) algoritma: O(nlogn).
-    // Dominira sortiranje, dok su ostali koraci linearni.
-    _maxTacka = _tacke[0];
+    // Trazenje maksimalnih i minimalnih x,y osa
 
+    for(auto &tacka: _tacke) {
+        if (tacka.rx() < _xmin){
+            _xmin = tacka.rx();
+        }
+        if (tacka.rx() > _xmax){
+            _xmax = tacka.rx();
+        }
+        if (tacka.ry()< _ymin){
+            _ymin = tacka.ry();
+        }
+        if (tacka.ry() > _ymax){
+            _ymax = tacka.ry();
+        }
+    }
+    qDebug("xmin: %d \txmax: %d \tymin: %d \tymax: %d \t",_xmin,_xmax,_ymin,_ymax);
+
+    _leftBottomRectPoint = QPoint(_xmin,_ymin);
+    _leftTopRectPoint = QPoint(_xmin,_ymax);
+    _rightTopRectPoint = QPoint(_xmax,_ymax);
+    _rightBottomRectPoint = QPoint(_xmax,_ymin);
+
+    /*)
+    auto pen = painter->pen();
+    pen.setColor(Qt::red);
+
+    pen->drawLine(QLine(_leftBottomRectPoint,_leftTopRectPoint));
+    pen->drawLine(QLine(_leftTopRectPoint,_rightTopRectPoint));
+    pen->drawLine(QLine(_rightTopRectPoint,_rightBottomRectPoint));
+    pen->drawLine(QLine(_rightBottomRectPoint,_leftBottomRectPoint));
+    */
+
+    /*)
     for (auto i = 1ul; i < _tacke.size(); i++) {
         if (_tacke[i].x() > _maxTacka.x() || (_tacke[i].x() == _maxTacka.x() && _tacke[i].y() < _maxTacka.y()))
             _maxTacka = _tacke[i];
@@ -58,8 +88,8 @@ void MaxKrugProstogPoligona::pokreniAlgoritam() {
         }
         AlgoritamBaza_updateCanvasAndBlock()
     }
-
-    _maxKrugProstogPoligona.push_back(_maxTacka);
+    */
+    //_maxKrugProstogPoligona.push_back(_maxTacka);
     AlgoritamBaza_updateCanvasAndBlock()
     emit animacijaZavrsila();
 }
@@ -73,20 +103,21 @@ void MaxKrugProstogPoligona::crtajAlgoritam(QPainter *painter) const {
     for(auto &tacka: _tacke) {
         painter->drawPoint(tacka);
     }
-    pen.setColor(Qt::blue);
+    pen.setColor(Qt::red);
     painter->setPen(pen);
     for(auto i = 1ul; i < _tacke.size(); i++) {
         qDebug("crtanje linije za tacku: %lul",i);
         painter->drawLine(QLine(_tacke[i-1],_tacke[i]));
-       //painter->drawLine(_tacke[i-1], _tacke[i]);
     }
     painter->drawLine(QLine(_tacke[_tacke.size()-1],_tacke[0]));
-    /*)
+
     pen.setColor(Qt::blue);
     painter->setPen(pen);
+    painter->drawLine(QLine(_leftBottomRectPoint,_leftTopRectPoint));
+    painter->drawLine(QLine(_leftTopRectPoint,_rightTopRectPoint));
+    painter->drawLine(QLine(_rightTopRectPoint,_rightBottomRectPoint));
+    painter->drawLine(QLine(_rightBottomRectPoint,_leftBottomRectPoint));
 
-    painter->drawLine(_tacke[_tacke.size()-1], _tacke[0]);
-    */
 }
 
 void MaxKrugProstogPoligona::pokreniNaivniAlgoritam() {

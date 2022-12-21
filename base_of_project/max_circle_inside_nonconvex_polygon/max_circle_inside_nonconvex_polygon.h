@@ -2,6 +2,7 @@
 #define MAX_CIRCLE_INSIDE_NONCONVEX_POLYGON_H
 
 #include "algoritambaza.h"
+#include <limits>
 
 class MaxKrugProstogPoligona : public AlgoritamBaza
 {
@@ -24,11 +25,20 @@ private:
     std::vector<QPoint> ucitajPodatkeIzDatoteke(std::string);
     std::vector<QPoint> _tacke;
     std::vector<QPoint> _maxKrugProstogPoligona;
-    QPoint _maxTacka;
+    QPoint _leftBottomRectPoint;
+    QPoint _leftTopRectPoint;
+    QPoint _rightTopRectPoint;
+    QPoint _rightBottomRectPoint;
+
+
 
     int _povrsina;
     unsigned long _i, _j, _k;
     unsigned int _n = 0;
+    int _xmin =  std::numeric_limits<int>::max();;
+    int _xmax = 0;
+    int _ymin =  std::numeric_limits<int>::max();;
+    int _ymax = 0;
     std::vector<QLine> _naivniOmotac;
 };
 
