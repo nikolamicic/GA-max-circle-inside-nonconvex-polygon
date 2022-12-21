@@ -30,7 +30,9 @@ private:
     QPoint _rightTopRectPoint;
     QPoint _rightBottomRectPoint;
 
-
+    std::vector<int> _rectXs;
+    std::vector<int> _rectYs;
+    std::vector<QPoint> _allPoints;
 
     int _povrsina;
     unsigned long _i, _j, _k;

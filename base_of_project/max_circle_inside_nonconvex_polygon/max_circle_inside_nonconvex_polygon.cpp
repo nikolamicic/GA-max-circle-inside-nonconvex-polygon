@@ -15,8 +15,10 @@ MaxKrugProstogPoligona::MaxKrugProstogPoligona(QWidget *pCrtanje,
 {
     if (imeDatoteke == "")
         _tacke = generisiNasumicneTacke(brojTacaka);
-    else
+    else{
         _tacke = ucitajPodatkeIzDatoteke(imeDatoteke);
+        _allPoints = ucitajPodatkeIzDatoteke(imeDatoteke);
+    }
     _k = _tacke.size();
 }
 
@@ -43,6 +45,34 @@ void MaxKrugProstogPoligona::pokreniAlgoritam() {
     _leftTopRectPoint = QPoint(_xmin,_ymax);
     _rightTopRectPoint = QPoint(_xmax,_ymax);
     _rightBottomRectPoint = QPoint(_xmax,_ymin);
+
+    int divider = 20;
+
+    int x_div_res = round((_xmax-_xmin)/divider);
+    int y_div_res = round((_ymax-_ymin)/divider);
+
+    int curr_x = _xmin;
+    _rectXs.push_back(curr_x);
+    for(auto i = 1; i < divider; i++) {
+        curr_x = curr_x + x_div_res;
+        _rectXs.push_back(curr_x);
+    }
+    _rectXs.push_back(_xmax);
+
+    int curr_y = _ymin;
+    _rectYs.push_back(curr_x);
+    for(auto i = 1; i < divider; i++) {
+        curr_y = curr_y + y_div_res;
+        _rectYs.push_back(curr_y);
+    }
+    _rectYs.push_back(_ymax);
+
+    for(auto i = 0ul; i < _rectXs.size(); i++) {
+        for(auto j = 0ul; j < _rectYs.size(); j++){
+            QPoint p(_rectXs[i],_rectYs[j]);
+            _allPoints.push_back(p);
+        }
+    }
 
     /*)
     auto pen = painter->pen();
@@ -117,6 +147,22 @@ void MaxKrugProstogPoligona::crtajAlgoritam(QPainter *painter) const {
     painter->drawLine(QLine(_leftTopRectPoint,_rightTopRectPoint));
     painter->drawLine(QLine(_rightTopRectPoint,_rightBottomRectPoint));
     painter->drawLine(QLine(_rightBottomRectPoint,_leftBottomRectPoint));
+
+    pen.setColor(Qt::green);
+    painter->setPen(pen);
+
+    /*
+    for(auto i = 0ul; i < _allPoints.size(); i++) {
+        for(auto j = 0ul; j < _allPoints[i].size(); j++){
+            painter->drawPoint(_allPoints[i][j]);
+        }
+    }
+    */
+
+    for(auto &tacka: _allPoints){
+        painter->drawPoint(tacka);
+    }
+
 
 }
 
