@@ -17,7 +17,7 @@ MaxKrugProstogPoligona::MaxKrugProstogPoligona(QWidget *pCrtanje,
         _tacke = generisiNasumicneTacke(brojTacaka);
     else{
         _tacke = ucitajPodatkeIzDatoteke(imeDatoteke);
-        _allPoints = ucitajPodatkeIzDatoteke(imeDatoteke);
+        //_allPoints = ucitajPodatkeIzDatoteke(imeDatoteke);
     }
     _k = _tacke.size();
 }
@@ -46,10 +46,10 @@ void MaxKrugProstogPoligona::pokreniAlgoritam() {
     _rightTopRectPoint = QPoint(_xmax,_ymax);
     _rightBottomRectPoint = QPoint(_xmax,_ymin);
 
-    int divider = 20;
+    int divider = 15;
 
-    int x_div_res = round((_xmax-_xmin)/divider);
-    int y_div_res = round((_ymax-_ymin)/divider);
+    int x_div_res = ceil((_xmax-_xmin)/divider);
+    int y_div_res = ceil((_ymax-_ymin)/divider);
 
     int curr_x = _xmin;
     _rectXs.push_back(curr_x);
@@ -60,12 +60,16 @@ void MaxKrugProstogPoligona::pokreniAlgoritam() {
     _rectXs.push_back(_xmax);
 
     int curr_y = _ymin;
-    _rectYs.push_back(curr_x);
+    _rectYs.push_back(curr_y);
     for(auto i = 1; i < divider; i++) {
         curr_y = curr_y + y_div_res;
         _rectYs.push_back(curr_y);
     }
     _rectYs.push_back(_ymax);
+
+    for(auto tacka: _rectYs){
+        qDebug("Element rectYs-a: %d", tacka);
+    }
 
     for(auto i = 0ul; i < _rectXs.size(); i++) {
         for(auto j = 0ul; j < _rectYs.size(); j++){
