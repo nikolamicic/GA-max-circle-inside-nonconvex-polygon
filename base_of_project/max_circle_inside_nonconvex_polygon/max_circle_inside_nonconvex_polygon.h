@@ -22,6 +22,7 @@ public:
     const std::vector<QPointF> &getMaxKrugProstogPoligona() const;
 
 private:
+    bool PointInPolygon(QPointF point, std::vector<QPointF> polygon);
     std::vector<QPointF> ucitajPodatkeIzDatoteke(std::string);
     std::vector<QPointF> _tacke;
     std::vector<QPointF> _maxKrugProstogPoligona;
@@ -33,6 +34,7 @@ private:
     std::vector<int> _rectXs;
     std::vector<int> _rectYs;
     std::vector<QPointF> _allPoints;
+    std::vector<QPointF> _polygonPoints;
 
     int _povrsina;
     unsigned long _i, _j, _k;

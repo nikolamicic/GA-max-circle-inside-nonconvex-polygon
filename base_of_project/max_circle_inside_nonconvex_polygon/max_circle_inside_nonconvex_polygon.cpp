@@ -22,6 +22,22 @@ MaxKrugProstogPoligona::MaxKrugProstogPoligona(QWidget *pCrtanje,
     _k = _tacke.size();
 }
 
+bool MaxKrugProstogPoligona::PointInPolygon(QPointF point, std::vector<QPointF> polygon) {
+
+      int i, j;
+      int nvert = polygon.size();
+      bool c = false;
+
+      for(i = 0, j = nvert - 1; i < nvert; j = i++) {
+        if( ( (polygon[i].ry() > point.ry() ) != (polygon[j].ry() > point.ry()) ) &&
+            (point.rx() < (polygon[j].rx() - polygon[i].rx()) * (point.ry() - polygon[i].ry()) / (polygon[j].ry() - polygon[i].ry()) + polygon[i].rx())
+          )
+          c = !c;
+      }
+
+      return c;
+}
+
 void MaxKrugProstogPoligona::pokreniAlgoritam() {
     // Trazenje maksimalnih i minimalnih x,y osa
 
@@ -74,6 +90,10 @@ void MaxKrugProstogPoligona::pokreniAlgoritam() {
     for(auto i = 0ul; i < _rectXs.size(); i++) {
         for(auto j = 0ul; j < _rectYs.size(); j++){
             QPointF p(_rectXs[i],_rectYs[j]);
+            bool is_point_in_polygon = PointInPolygon(p, _tacke);
+            if(is_point_in_polygon==true){
+                _polygonPoints.push_back(p);
+            }
             _allPoints.push_back(p);
         }
     }
@@ -152,8 +172,6 @@ void MaxKrugProstogPoligona::crtajAlgoritam(QPainter *painter) const {
     painter->drawLine(QLineF(_rightTopRectPoint,_rightBottomRectPoint));
     painter->drawLine(QLineF(_rightBottomRectPoint,_leftBottomRectPoint));
 
-    pen.setColor(Qt::green);
-    painter->setPen(pen);
 
     /*
     for(auto i = 0ul; i < _allPoints.size(); i++) {
@@ -162,8 +180,17 @@ void MaxKrugProstogPoligona::crtajAlgoritam(QPainter *painter) const {
         }
     }
     */
+    pen.setColor(Qt::red);
+    painter->setPen(pen);
 
     for(auto &tacka: _allPoints){
+        painter->drawPoint(tacka);
+    }
+
+    pen.setColor(Qt::green);
+    painter->setPen(pen);
+
+    for(auto &tacka: _polygonPoints){
         painter->drawPoint(tacka);
     }
 
