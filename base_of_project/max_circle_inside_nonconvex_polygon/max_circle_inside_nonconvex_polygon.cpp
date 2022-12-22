@@ -55,7 +55,7 @@ void MaxKrugProstogPoligona::pokreniAlgoritam() {
             _ymax = tacka.ry();
         }
     }
-    qDebug("xmin: %d \txmax: %d \tymin: %d \tymax: %d \t",_xmin,_xmax,_ymin,_ymax);
+    qDebug("xmin: %f \txmax: %f \tymin: %f \tymax: %f \t",_xmin,_xmax,_ymin,_ymax);
 
     _leftBottomRectPoint = QPointF(_xmin,_ymin);
     _leftTopRectPoint = QPointF(_xmin,_ymax);
@@ -84,7 +84,7 @@ void MaxKrugProstogPoligona::pokreniAlgoritam() {
     _rectYs.push_back(_ymax);
 
     for(auto tacka: _rectYs){
-        qDebug("Element rectYs-a: %d", tacka);
+        qDebug("Element rectYs-a: %f", tacka);
     }
 
     for(auto i = 0ul; i < _rectXs.size(); i++) {

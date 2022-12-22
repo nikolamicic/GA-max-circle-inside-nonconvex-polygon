@@ -31,18 +31,18 @@ private:
     QPointF _rightTopRectPoint;
     QPointF _rightBottomRectPoint;
 
-    std::vector<int> _rectXs;
-    std::vector<int> _rectYs;
+    std::vector<float> _rectXs;
+    std::vector<float> _rectYs;
     std::vector<QPointF> _allPoints;
     std::vector<QPointF> _polygonPoints;
 
     int _povrsina;
     unsigned long _i, _j, _k;
     unsigned int _n = 0;
-    int _xmin =  std::numeric_limits<int>::max();;
-    int _xmax = 0;
-    int _ymin =  std::numeric_limits<int>::max();;
-    int _ymax = 0;
+    float _xmin =  std::numeric_limits<float>::max();;
+    float _xmax = 0;
+    float _ymin =  std::numeric_limits<float>::max();;
+    float _ymax = 0;
     std::vector<QLineF> _naivniOmotac;
 };
 
