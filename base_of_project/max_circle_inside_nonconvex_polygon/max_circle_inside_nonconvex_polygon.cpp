@@ -14,7 +14,7 @@ MaxKrugProstogPoligona::MaxKrugProstogPoligona(QWidget *pCrtanje,
     : AlgoritamBaza(pCrtanje, pauzaKoraka, naivni)
 {
     if (imeDatoteke == "")
-        _tacke = generisiNasumicneTacke(brojTacaka);
+        qDebug("Potrebno je upisati ime datoteke iz koje se čitaju podaci.");
     else{
         _tacke = ucitajPodatkeIzDatoteke(imeDatoteke);
         //_allPoints = ucitajPodatkeIzDatoteke(imeDatoteke);
@@ -41,17 +41,17 @@ void MaxKrugProstogPoligona::pokreniAlgoritam() {
     }
     qDebug("xmin: %d \txmax: %d \tymin: %d \tymax: %d \t",_xmin,_xmax,_ymin,_ymax);
 
-    _leftBottomRectPoint = QPoint(_xmin,_ymin);
-    _leftTopRectPoint = QPoint(_xmin,_ymax);
-    _rightTopRectPoint = QPoint(_xmax,_ymax);
-    _rightBottomRectPoint = QPoint(_xmax,_ymin);
+    _leftBottomRectPoint = QPointF(_xmin,_ymin);
+    _leftTopRectPoint = QPointF(_xmin,_ymax);
+    _rightTopRectPoint = QPointF(_xmax,_ymax);
+    _rightBottomRectPoint = QPointF(_xmax,_ymin);
 
-    int divider = 15;
+    float divider = 20;
 
-    int x_div_res = ceil((_xmax-_xmin)/divider);
-    int y_div_res = ceil((_ymax-_ymin)/divider);
+    float x_div_res = (_xmax-_xmin)/divider;
+    float y_div_res = (_ymax-_ymin)/divider;
 
-    int curr_x = _xmin;
+    float curr_x = _xmin;
     _rectXs.push_back(curr_x);
     for(auto i = 1; i < divider; i++) {
         curr_x = curr_x + x_div_res;
@@ -59,7 +59,7 @@ void MaxKrugProstogPoligona::pokreniAlgoritam() {
     }
     _rectXs.push_back(_xmax);
 
-    int curr_y = _ymin;
+    float curr_y = _ymin;
     _rectYs.push_back(curr_y);
     for(auto i = 1; i < divider; i++) {
         curr_y = curr_y + y_div_res;
@@ -73,7 +73,7 @@ void MaxKrugProstogPoligona::pokreniAlgoritam() {
 
     for(auto i = 0ul; i < _rectXs.size(); i++) {
         for(auto j = 0ul; j < _rectYs.size(); j++){
-            QPoint p(_rectXs[i],_rectYs[j]);
+            QPointF p(_rectXs[i],_rectYs[j]);
             _allPoints.push_back(p);
         }
     }
@@ -82,10 +82,10 @@ void MaxKrugProstogPoligona::pokreniAlgoritam() {
     auto pen = painter->pen();
     pen.setColor(Qt::red);
 
-    pen->drawLine(QLine(_leftBottomRectPoint,_leftTopRectPoint));
-    pen->drawLine(QLine(_leftTopRectPoint,_rightTopRectPoint));
-    pen->drawLine(QLine(_rightTopRectPoint,_rightBottomRectPoint));
-    pen->drawLine(QLine(_rightBottomRectPoint,_leftBottomRectPoint));
+    pen->drawLine(QLineF(_leftBottomRectPoint,_leftTopRectPoint));
+    pen->drawLine(QLineF(_leftTopRectPoint,_rightTopRectPoint));
+    pen->drawLine(QLineF(_rightTopRectPoint,_rightBottomRectPoint));
+    pen->drawLine(QLineF(_rightBottomRectPoint,_leftBottomRectPoint));
     */
 
     /*)
@@ -141,16 +141,16 @@ void MaxKrugProstogPoligona::crtajAlgoritam(QPainter *painter) const {
     painter->setPen(pen);
     for(auto i = 1ul; i < _tacke.size(); i++) {
         qDebug("crtanje linije za tacku: %lul",i);
-        painter->drawLine(QLine(_tacke[i-1],_tacke[i]));
+        painter->drawLine(QLineF(_tacke[i-1],_tacke[i]));
     }
-    painter->drawLine(QLine(_tacke[_tacke.size()-1],_tacke[0]));
+    painter->drawLine(QLineF(_tacke[_tacke.size()-1],_tacke[0]));
 
     pen.setColor(Qt::blue);
     painter->setPen(pen);
-    painter->drawLine(QLine(_leftBottomRectPoint,_leftTopRectPoint));
-    painter->drawLine(QLine(_leftTopRectPoint,_rightTopRectPoint));
-    painter->drawLine(QLine(_rightTopRectPoint,_rightBottomRectPoint));
-    painter->drawLine(QLine(_rightBottomRectPoint,_leftBottomRectPoint));
+    painter->drawLine(QLineF(_leftBottomRectPoint,_leftTopRectPoint));
+    painter->drawLine(QLineF(_leftTopRectPoint,_rightTopRectPoint));
+    painter->drawLine(QLineF(_rightTopRectPoint,_rightBottomRectPoint));
+    painter->drawLine(QLineF(_rightBottomRectPoint,_leftBottomRectPoint));
 
     pen.setColor(Qt::green);
     painter->setPen(pen);
@@ -186,22 +186,22 @@ void MaxKrugProstogPoligona::crtajNaivniAlgoritam(QPainter *painter) const
     return;
 }
 
-const std::vector<QPoint> &MaxKrugProstogPoligona::getMaxKrugProstogPoligona() const
+const std::vector<QPointF> &MaxKrugProstogPoligona::getMaxKrugProstogPoligona() const
 {
     return _maxKrugProstogPoligona;
 }
 
 /* Citanje pravougaonika iz datoteke */
-std::vector<QPoint> MaxKrugProstogPoligona::ucitajPodatkeIzDatoteke(std::string imeDatoteke)
+std::vector<QPointF> MaxKrugProstogPoligona::ucitajPodatkeIzDatoteke(std::string imeDatoteke)
 {
     /* Otvaranje zadatog fajla */
     std::ifstream inputFile(imeDatoteke);
-    std::vector<QPoint> points;
+    std::vector<QPointF> points;
 
     float x, y;
     while(inputFile >> x >> y)
     {
-        QPoint p(x,y);
+        QPointF p(x,y);
         points.push_back(p);
     }
 

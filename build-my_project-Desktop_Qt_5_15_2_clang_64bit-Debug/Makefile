@@ -81,7 +81,8 @@ OBJECTS       = ga03_konveksniomotac.o \
 		moc_oblastcrtanja.o \
 		moc_oblastcrtanjaopengl.o \
 		moc_timemeasurementthread.o
-DIST          = ../base_of_project/docs/ga06_presekPravougaonika.docx \
+DIST          = ../base_of_project/input_files/max_circle_inside_nonconvex_polygon/input1.txt \
+		../base_of_project/docs/ga06_presekPravougaonika.docx \
 		../base_of_project/docs/ga06_presekPravougaonika.pdf \
 		../base_of_project/input_files/ga00_DCELDemo/mushroom.off \
 		../base_of_project/input_files/ga00_DCELDemo/test0.off \
@@ -886,6 +887,8 @@ moc_mainwindow.cpp: ../base_of_project/mainwindow.h \
 		../../../../Qt/5.15.2/clang_64/lib/QtGui.framework/Headers/QMouseEvent \
 		../../../../Qt/5.15.2/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../base_of_project/timemeasurementthread.h \
+		../base_of_project/algoritmi_sa_vezbi/ga03_konveksniomotac.h \
+		../base_of_project/max_circle_inside_nonconvex_polygon/max_circle_inside_nonconvex_polygon.h \
 		moc_predefs.h \
 		../../../../Qt/5.15.2/clang_64/bin/moc
 	/Users/micko/Qt/5.15.2/clang_64/bin/moc $(DEFINES) --include /Users/micko/master_kursevi/Geometrijski_algoritmi/GA-max-circle-inside-nonconvex-polygon/build-my_project-Desktop_Qt_5_15_2_clang_64bit-Debug/moc_predefs.h -I/Users/micko/Qt/5.15.2/clang_64/mkspecs/macx-clang -I/Users/micko/master_kursevi/Geometrijski_algoritmi/GA-max-circle-inside-nonconvex-polygon/base_of_project -I/Users/micko/Qt/5.15.2/clang_64/lib/QtOpenGL.framework/Headers -I/Users/micko/Qt/5.15.2/clang_64/lib/QtCharts.framework/Headers -I/Users/micko/Qt/5.15.2/clang_64/lib/QtWidgets.framework/Headers -I/Users/micko/Qt/5.15.2/clang_64/lib/QtGui.framework/Headers -I/Users/micko/Qt/5.15.2/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.0.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/micko/Qt/5.15.2/clang_64/lib ../base_of_project/mainwindow.h -o moc_mainwindow.cpp
@@ -1030,7 +1033,33 @@ ga03_konveksniomotac.o: ../base_of_project/algoritmi_sa_vezbi/ga03_konveksniomot
 		../../../../Qt/5.15.2/clang_64/lib/QtGui.framework/Headers/qpainterpath.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ga03_konveksniomotac.o ../base_of_project/algoritmi_sa_vezbi/ga03_konveksniomotac.cpp
 
-max_circle_inside_nonconvex_polygon.o: ../base_of_project/max_circle_inside_nonconvex_polygon/max_circle_inside_nonconvex_polygon.cpp 
+max_circle_inside_nonconvex_polygon.o: ../base_of_project/max_circle_inside_nonconvex_polygon/max_circle_inside_nonconvex_polygon.cpp ../base_of_project/max_circle_inside_nonconvex_polygon/max_circle_inside_nonconvex_polygon.h \
+		../base_of_project/algoritambaza.h \
+		../../../../Qt/5.15.2/clang_64/lib/QtCore.framework/Headers/QObject \
+		../../../../Qt/5.15.2/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		../../../../Qt/5.15.2/clang_64/lib/QtGui.framework/Headers/QPainter \
+		../../../../Qt/5.15.2/clang_64/lib/QtGui.framework/Headers/qpainter.h \
+		../../../../Qt/5.15.2/clang_64/lib/QtCore.framework/Headers/QSemaphore \
+		../../../../Qt/5.15.2/clang_64/lib/QtCore.framework/Headers/qsemaphore.h \
+		../../../../Qt/5.15.2/clang_64/lib/QtWidgets.framework/Headers/QWidget \
+		../../../../Qt/5.15.2/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
+		../../../../Qt/5.15.2/clang_64/lib/QtWidgets.framework/Headers/QOpenGLWidget \
+		../../../../Qt/5.15.2/clang_64/lib/QtWidgets.framework/Headers/qopenglwidget.h \
+		../../../../Qt/5.15.2/clang_64/lib/QtWidgets.framework/Headers/QCheckBox \
+		../../../../Qt/5.15.2/clang_64/lib/QtWidgets.framework/Headers/qcheckbox.h \
+		../base_of_project/animacijanit.h \
+		../../../../Qt/5.15.2/clang_64/lib/QtCore.framework/Headers/QThread \
+		../../../../Qt/5.15.2/clang_64/lib/QtCore.framework/Headers/qthread.h \
+		../base_of_project/config.h \
+		../base_of_project/pomocnefunkcije.h \
+		../../../../Qt/5.15.2/clang_64/lib/QtCore.framework/Headers/QPoint \
+		../../../../Qt/5.15.2/clang_64/lib/QtCore.framework/Headers/qpoint.h \
+		../../../../Qt/5.15.2/clang_64/lib/QtCore.framework/Headers/QLineF \
+		../../../../Qt/5.15.2/clang_64/lib/QtCore.framework/Headers/qline.h \
+		../../../../Qt/5.15.2/clang_64/lib/QtGui.framework/Headers/QVector3D \
+		../../../../Qt/5.15.2/clang_64/lib/QtGui.framework/Headers/qvector3d.h \
+		../../../../Qt/5.15.2/clang_64/lib/QtGui.framework/Headers/QPainterPath \
+		../../../../Qt/5.15.2/clang_64/lib/QtGui.framework/Headers/qpainterpath.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o max_circle_inside_nonconvex_polygon.o ../base_of_project/max_circle_inside_nonconvex_polygon/max_circle_inside_nonconvex_polygon.cpp
 
 algoritambaza.o: ../base_of_project/algoritambaza.cpp ../base_of_project/algoritambaza.h \
@@ -1096,6 +1125,8 @@ main.o: ../base_of_project/main.cpp ../base_of_project/mainwindow.h \
 		../../../../Qt/5.15.2/clang_64/lib/QtGui.framework/Headers/QMouseEvent \
 		../../../../Qt/5.15.2/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../base_of_project/timemeasurementthread.h \
+		../base_of_project/algoritmi_sa_vezbi/ga03_konveksniomotac.h \
+		../base_of_project/max_circle_inside_nonconvex_polygon/max_circle_inside_nonconvex_polygon.h \
 		../../../../Qt/5.15.2/clang_64/lib/QtWidgets.framework/Headers/QApplication \
 		../../../../Qt/5.15.2/clang_64/lib/QtWidgets.framework/Headers/qapplication.h \
 		../../../../Qt/5.15.2/clang_64/lib/QtWidgets.framework/Headers/QLabel \
@@ -1128,6 +1159,7 @@ mainwindow.o: ../base_of_project/mainwindow.cpp ../base_of_project/mainwindow.h 
 		../../../../Qt/5.15.2/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../base_of_project/timemeasurementthread.h \
 		../base_of_project/algoritmi_sa_vezbi/ga03_konveksniomotac.h \
+		../base_of_project/max_circle_inside_nonconvex_polygon/max_circle_inside_nonconvex_polygon.h \
 		ui_mainwindow.h \
 		../../../../Qt/5.15.2/clang_64/lib/QtWidgets.framework/Headers/QFileDialog \
 		../../../../Qt/5.15.2/clang_64/lib/QtWidgets.framework/Headers/qfiledialog.h \
@@ -1210,6 +1242,7 @@ timemeasurementthread.o: ../base_of_project/timemeasurementthread.cpp ../base_of
 		../base_of_project/animacijanit.h \
 		../base_of_project/config.h \
 		../base_of_project/algoritmi_sa_vezbi/ga03_konveksniomotac.h \
+		../base_of_project/max_circle_inside_nonconvex_polygon/max_circle_inside_nonconvex_polygon.h \
 		../base_of_project/mainwindow.h \
 		../../../../Qt/5.15.2/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
 		../../../../Qt/5.15.2/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
