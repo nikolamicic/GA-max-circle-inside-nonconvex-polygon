@@ -19,10 +19,11 @@ public:
     void crtajNaivniAlgoritam(QPainter *painter) const final;
 
 
-    const std::vector<QPointF> &getMaxKrugProstogPoligona() const;
+    QPointF getMaxCirclePointCenter() const;
 
 private:
     bool PointInPolygon(QPointF point, std::vector<QPointF> polygon);
+    float MinDistanceOfPoint(QPointF point, std::vector<QPointF> polygon);
     std::vector<QPointF> ucitajPodatkeIzDatoteke(std::string);
     std::vector<QPointF> _tacke;
     std::vector<QPointF> _maxKrugProstogPoligona;
@@ -31,10 +32,14 @@ private:
     QPointF _rightTopRectPoint;
     QPointF _rightBottomRectPoint;
 
+    QPointF _final_max_circle_point;
+    float _final_max_dist;
+
     std::vector<float> _rectXs;
     std::vector<float> _rectYs;
     std::vector<QPointF> _allPoints;
     std::vector<QPointF> _polygonPoints;
+
 
     int _povrsina;
     unsigned long _i, _j, _k;
