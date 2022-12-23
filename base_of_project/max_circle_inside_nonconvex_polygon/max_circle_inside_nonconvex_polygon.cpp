@@ -7,6 +7,7 @@
 #include <fstream>
 #include <cmath>
 #include <limits>
+#include <stdlib.h>
 
 MaxKrugProstogPoligona::MaxKrugProstogPoligona(QWidget *pCrtanje,
                                  int pauzaKoraka,
@@ -116,6 +117,13 @@ void MaxKrugProstogPoligona::ReducingRectangleArea(){
 }
 
 void MaxKrugProstogPoligona::CurrentPointWithCenterOfMaxCircle() {
+
+    _rectXs.clear();
+    _rectYs.clear();
+
+    _polygonPoints.clear();
+    _allPoints.clear();
+
     _leftBottomRectPoint = QPointF(_xmin,_ymin);
     _leftTopRectPoint = QPointF(_xmin,_ymax);
     _rightTopRectPoint = QPointF(_xmax,_ymax);
@@ -191,60 +199,25 @@ void MaxKrugProstogPoligona::pokreniAlgoritam() {
     }
     qDebug("xmin: %f \txmax: %f \tymin: %f \tymax: %f \t",_xmin,_xmax,_ymin,_ymax);
 
-    float previous_max_distance = 0.0;
-    float precision = 1.0;
+    float previous_max_distance;
+    float precision = 0.1;
+    int i = 0;
 
     do{
+        previous_max_distance = _final_max_dist;
+
         CurrentPointWithCenterOfMaxCircle();
-    }while((_final_max_dist-previous_max_distance) < precision);
+        ReducingRectangleArea();
+        qDebug("xmin: %f \txmax: %f \tymin: %f \tymax: %f \t",_xmin,_xmax,_ymin,_ymax);
+
+        i++;
+        qDebug("%d. iteracija, max_distance: %f", i, _final_max_dist);
+
+        AlgoritamBaza_updateCanvasAndBlock();
+    }while((_final_max_dist-previous_max_distance) > precision);
+
     qDebug("zavrsen do while!");
 
-    /*)
-    auto pen = painter->pen();
-    pen.setColor(Qt::red);
-
-    pen->drawLine(QLineF(_leftBottomRectPoint,_leftTopRectPoint));
-    pen->drawLine(QLineF(_leftTopRectPoint,_rightTopRectPoint));
-    pen->drawLine(QLineF(_rightTopRectPoint,_rightBottomRectPoint));
-    pen->drawLine(QLineF(_rightBottomRectPoint,_leftBottomRectPoint));
-    */
-
-    /*)
-    for (auto i = 1ul; i < _tacke.size(); i++) {
-        if (_tacke[i].x() > _maxTacka.x() || (_tacke[i].x() == _maxTacka.x() && _tacke[i].y() < _maxTacka.y()))
-            _maxTacka = _tacke[i];
-    }
-    AlgoritamBaza_updateCanvasAndBlock()
-
-    std::sort(_tacke.begin(), _tacke.end(), [&](const auto& lhs, const auto& rhs) {
-        int P = pomocneFunkcije::povrsinaTrougla(_maxTacka, lhs, rhs);
-        return  (P < 0) ||  (P == 0 && pomocneFunkcije::distanceKvadrat(_maxTacka, lhs)
-                             < pomocneFunkcije::distanceKvadrat(_maxTacka, rhs));
-    });
-
-    _maxKrugProstogPoligona.push_back(_maxTacka);
-    _maxKrugProstogPoligona.push_back(_tacke[1]);
-    unsigned pom = 2;
-    unsigned j = 2;
-
-    while(j < _tacke.size()) {
-        if(pomocneFunkcije::povrsinaTrougla(_maxKrugProstogPoligona[pom-2],
-                                            _maxKrugProstogPoligona[pom-1],
-                                            _tacke[j]) < 0)
-        {
-            _maxKrugProstogPoligona.push_back(_tacke[j]);
-            ++pom;
-            ++j;
-        }
-        else {
-            _maxKrugProstogPoligona.pop_back();
-            --pom;
-            // Ne smemo da povecamo j u ovom slucaju, jer nismo zavrsili sa ovom tackom
-        }
-        AlgoritamBaza_updateCanvasAndBlock()
-    }
-    */
-    //_maxKrugProstogPoligona.push_back(_maxTacka);
     AlgoritamBaza_updateCanvasAndBlock()
     emit animacijaZavrsila();
 }

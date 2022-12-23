@@ -28,7 +28,6 @@ private:
     float MinDistanceOfPoint(QPointF point, std::vector<QPointF> polygon);
     std::vector<QPointF> ucitajPodatkeIzDatoteke(std::string);
     std::vector<QPointF> _tacke;
-    std::vector<QPointF> _maxKrugProstogPoligona;
     QPointF _leftBottomRectPoint;
     QPointF _leftTopRectPoint;
     QPointF _rightTopRectPoint;
@@ -42,10 +41,8 @@ private:
     std::vector<QPointF> _allPoints;
     std::vector<QPointF> _polygonPoints;
 
+    unsigned int _k;
 
-    int _povrsina;
-    unsigned long _i, _j, _k;
-    unsigned int _n = 0;
     float _xmin =  std::numeric_limits<float>::max();;
     float _xmax = 0;
     float _ymin =  std::numeric_limits<float>::max();;
