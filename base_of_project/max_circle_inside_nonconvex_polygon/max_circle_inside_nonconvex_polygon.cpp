@@ -99,25 +99,23 @@ float MaxKrugProstogPoligona::MinDistanceOfPoint(QPointF point, std::vector<QPoi
 
 }
 
-void MaxKrugProstogPoligona::pokreniAlgoritam() {
-    // Trazenje maksimalnih i minimalnih x,y osa
+void MaxKrugProstogPoligona::ReducingRectangleArea(){
+    // reducing Rectangle Area by a factor of the square root of 2
+    float x_diff = sqrt(_xmax-_xmin);
+    float y_diff = sqrt(_ymax-_ymin);
 
-    for(auto &tacka: _tacke) {
-        if (tacka.rx() < _xmin){
-            _xmin = tacka.rx();
-        }
-        if (tacka.rx() > _xmax){
-            _xmax = tacka.rx();
-        }
-        if (tacka.ry()< _ymin){
-            _ymin = tacka.ry();
-        }
-        if (tacka.ry() > _ymax){
-            _ymax = tacka.ry();
-        }
-    }
-    qDebug("xmin: %f \txmax: %f \tymin: %f \tymax: %f \t",_xmin,_xmax,_ymin,_ymax);
 
+    // define a new Rectangle with smaller intervals and bounds around _final_max_circle_point (that is current center of max circle)
+
+    _xmin = _final_max_circle_point.rx() - x_diff/2;
+    _xmax = _final_max_circle_point.rx() + x_diff/2;
+
+    _ymin = _final_max_circle_point.ry() - y_diff/2;
+    _ymax = _final_max_circle_point.ry() + y_diff/2;
+
+}
+
+void MaxKrugProstogPoligona::CurrentPointWithCenterOfMaxCircle() {
     _leftBottomRectPoint = QPointF(_xmin,_ymin);
     _leftTopRectPoint = QPointF(_xmin,_ymax);
     _rightTopRectPoint = QPointF(_xmax,_ymax);
@@ -172,6 +170,35 @@ void MaxKrugProstogPoligona::pokreniAlgoritam() {
     }
 
     qDebug("ZAVRSENA FOR PETLJA!");
+}
+
+void MaxKrugProstogPoligona::pokreniAlgoritam() {
+    // Trazenje maksimalnih i minimalnih x,y osa
+
+    for(auto &tacka: _tacke) {
+        if (tacka.rx() < _xmin){
+            _xmin = tacka.rx();
+        }
+        if (tacka.rx() > _xmax){
+            _xmax = tacka.rx();
+        }
+        if (tacka.ry()< _ymin){
+            _ymin = tacka.ry();
+        }
+        if (tacka.ry() > _ymax){
+            _ymax = tacka.ry();
+        }
+    }
+    qDebug("xmin: %f \txmax: %f \tymin: %f \tymax: %f \t",_xmin,_xmax,_ymin,_ymax);
+
+    float previous_max_distance = 0.0;
+    float precision = 1.0;
+
+    do{
+        CurrentPointWithCenterOfMaxCircle();
+    }while((_final_max_dist-previous_max_distance) < precision);
+    qDebug("zavrsen do while!");
+
     /*)
     auto pen = painter->pen();
     pen.setColor(Qt::red);

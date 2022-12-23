@@ -22,6 +22,8 @@ public:
     QPointF getMaxCirclePointCenter() const;
 
 private:
+    void ReducingRectangleArea();
+    void CurrentPointWithCenterOfMaxCircle();
     bool PointInPolygon(QPointF point, std::vector<QPointF> polygon);
     float MinDistanceOfPoint(QPointF point, std::vector<QPointF> polygon);
     std::vector<QPointF> ucitajPodatkeIzDatoteke(std::string);
@@ -33,7 +35,7 @@ private:
     QPointF _rightBottomRectPoint;
 
     QPointF _final_max_circle_point;
-    float _final_max_dist;
+    float _final_max_dist = 0.0;
 
     std::vector<float> _rectXs;
     std::vector<float> _rectYs;
