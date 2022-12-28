@@ -25,6 +25,104 @@ MaxKrugProstogPoligona::MaxKrugProstogPoligona(QWidget *pCrtanje,
     _k = _tacke.size();
 }
 
+bool MaxKrugProstogPoligona::onLine(QLineF l1, QPointF p)
+{
+    // Check whether p is on the line or not
+    if (p.rx() <= fmax(l1.p1().rx(), l1.p2().rx())
+        && p.rx() <= fmin(l1.p1().rx(), l1.p2().rx())
+        && (p.ry() <= fmax(l1.p1().ry(), l1.p2().ry())
+            && p.ry() <= fmin(l1.p1().ry(), l1.p2().ry())))
+        return true;
+
+    return false;
+}
+
+int MaxKrugProstogPoligona::direction(QPointF a, QPointF b, QPointF c)
+{
+    int val = (b.ry() - a.ry()) * (c.rx() - b.rx())
+              - (b.rx() - a.rx()) * (c.ry() - b.ry());
+
+    if (val == 0)
+        // Colinear
+        return 0;
+
+    else if (val < 0)
+        // Anti-clockwise direction
+        return 2;
+
+    // Clockwise direction
+    return 1;
+}
+
+bool MaxKrugProstogPoligona::isIntersect(QLineF l1, QLineF l2)
+{
+    // Four direction for two lines and points of other line
+    int dir1 = direction(l1.p1(), l1.p2(), l2.p1());
+    int dir2 = direction(l1.p1(), l1.p2(), l2.p2());
+    int dir3 = direction(l2.p1(), l2.p2(), l1.p1());
+    int dir4 = direction(l2.p1(), l2.p2(), l1.p2());
+
+    // When intersecting
+    if (dir1 != dir2 && dir3 != dir4)
+        return true;
+
+    // When p2 of line2 are on the line1
+    if (dir1 == 0 && onLine(l1, l2.p1()))
+        return true;
+
+    // When p1 of line2 are on the line1
+    if (dir2 == 0 && onLine(l1, l2.p2()))
+        return true;
+
+    // When p2 of line1 are on the line2
+    if (dir3 == 0 && onLine(l2, l1.p1()))
+        return true;
+
+    // When p1 of line1 are on the line2
+    if (dir4 == 0 && onLine(l2, l1.p2()))
+        return true;
+
+    return false;
+}
+
+// New algorithm for checking if point is inside of Polygon.
+// Time Complexity: O(n) where n is the number of vertices in the given polygon.
+// Auxiliary Space: O(1), since no extra space has been taken.
+bool MaxKrugProstogPoligona::checkInside(std::vector<QPointF> poly, int nvert, QPointF p)
+{
+    int n = nvert-1;
+
+    // When polygon has less than 3 edge, it is not polygon
+    if (n < 3)
+        return false;
+
+    // Create a point at infinity, y is same as point p
+    QPointF inf_p(9999,p.ry());
+    QLineF exline(p, inf_p);
+
+    int count = 0;
+    int i = 0;
+    do {
+
+        // Forming a line from two consecutive points of
+        // poly
+        QLineF side(poly[i], poly[(i + 1) % n]);
+        if (isIntersect(side, exline)) {
+
+            // If side is intersects exline
+            if (direction(side.p1(), p, side.p2()) == 0)
+                return onLine(side, p);
+            count++;
+        }
+        i = (i + 1) % n;
+    } while (i != 0);
+
+    // When count is odd
+    return count & 1;
+}
+
+
+// Old version of checking if point is inside of Polygon.
 bool MaxKrugProstogPoligona::PointInPolygon(QPointF point, std::vector<QPointF> polygon) {
 
       int i, j;
@@ -157,7 +255,8 @@ void MaxKrugProstogPoligona::CurrentPointWithCenterOfMaxCircle() {
     for(auto i = 0ul; i < _rectXs.size(); i++) {
         for(auto j = 0ul; j < _rectYs.size(); j++){
             QPointF p(_rectXs[i],_rectYs[j]);
-            bool is_point_in_polygon = PointInPolygon(p, _tacke);
+            //bool is_point_in_polygon = PointInPolygon(p, _tacke);
+            bool is_point_in_polygon = checkInside(_tacke, _tacke.size(), p);
             if(is_point_in_polygon==true){
                 _polygonPoints.push_back(p);
             }
@@ -200,7 +299,7 @@ void MaxKrugProstogPoligona::pokreniAlgoritam() {
     qDebug("xmin: %f \txmax: %f \tymin: %f \tymax: %f \t",_xmin,_xmax,_ymin,_ymax);
 
     float previous_max_distance;
-    float precision = 0.1;
+    float precision = 0.01;
     int i = 0;
 
     do{

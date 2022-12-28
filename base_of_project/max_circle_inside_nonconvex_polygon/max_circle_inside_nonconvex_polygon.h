@@ -26,6 +26,12 @@ private:
     void CurrentPointWithCenterOfMaxCircle();
     bool PointInPolygon(QPointF point, std::vector<QPointF> polygon);
     float MinDistanceOfPoint(QPointF point, std::vector<QPointF> polygon);
+
+    bool onLine(QLineF l1, QPointF p);
+    int direction(QPointF a, QPointF b, QPointF c);
+    bool isIntersect(QLineF l1, QLineF l2);
+    bool checkInside(std::vector<QPointF> poly, int nvert, QPointF p);
+
     std::vector<QPointF> ucitajPodatkeIzDatoteke(std::string);
     std::vector<QPointF> _tacke;
     QPointF _leftBottomRectPoint;
