@@ -49,9 +49,9 @@ private:
 
     unsigned int _k;
 
-    float _xmin =  std::numeric_limits<float>::max();;
+    float _xmin =  std::numeric_limits<float>::max();
     float _xmax = 0;
-    float _ymin =  std::numeric_limits<float>::max();;
+    float _ymin =  std::numeric_limits<float>::max();
     float _ymax = 0;
     std::vector<QLineF> _naivniOmotac;
 };
