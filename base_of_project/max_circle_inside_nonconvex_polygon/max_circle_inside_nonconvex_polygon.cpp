@@ -90,10 +90,9 @@ bool MaxKrugProstogPoligona::isIntersect(QLineF l1, QLineF l2)
 // Auxiliary Space: O(1), since no extra space has been taken.
 bool MaxKrugProstogPoligona::checkInside(std::vector<QPointF> poly, int nvert, QPointF p)
 {
-    int n = nvert-1;
 
     // When polygon has less than 3 edge, it is not polygon
-    if (n < 3)
+    if (nvert < 3)
         return false;
 
     // Create a point at infinity, y is same as point p
@@ -106,7 +105,7 @@ bool MaxKrugProstogPoligona::checkInside(std::vector<QPointF> poly, int nvert, Q
 
         // Forming a line from two consecutive points of
         // poly
-        QLineF side(poly[i], poly[(i + 1) % n]);
+        QLineF side(poly[i], poly[(i + 1) % nvert]);
         if (isIntersect(side, exline)) {
 
             // If side is intersects exline
@@ -114,7 +113,7 @@ bool MaxKrugProstogPoligona::checkInside(std::vector<QPointF> poly, int nvert, Q
                 return onLine(side, p);
             count++;
         }
-        i = (i + 1) % n;
+        i = (i + 1) % nvert;
     } while (i != 0);
 
     // When count is odd

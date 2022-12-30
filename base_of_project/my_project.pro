@@ -46,6 +46,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     input_files/max_circle_inside_nonconvex_polygon/input1.txt \
+    input_files/max_circle_inside_nonconvex_polygon/input2.txt \
     docs/ga06_presekPravougaonika.docx \
     docs/ga06_presekPravougaonika.pdf \
     input_files/ga00_DCELDemo/mushroom.off \
