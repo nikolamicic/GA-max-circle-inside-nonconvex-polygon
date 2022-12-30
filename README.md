@@ -3,5 +3,5 @@ Computational Geometry course at Faculty of Mathematics - Belgrade. Implementati
 
 Video of working algorithm:
 
-https://user-images.githubusercontent.com/61322520/210086131-2c9c202d-a3ee-4a36-8127-dedd7d53d488.mov
+https://user-images.githubusercontent.com/61322520/210087991-8d96db48-1693-45b1-b697-ce8f8b759e3f.mov
 
