@@ -205,11 +205,11 @@ void MaxKrugProstogPoligona::ReducingRectangleArea(){
 
     // define a new Rectangle with smaller intervals and bounds around _final_max_circle_point (that is current center of max circle)
 
-    _xmin = _final_max_circle_point.rx() - x_diff/2;
-    _xmax = _final_max_circle_point.rx() + x_diff/2;
+    _xmin = _final_max_circle_point.rx() - x_diff;
+    _xmax = _final_max_circle_point.rx() + x_diff;
 
-    _ymin = _final_max_circle_point.ry() - y_diff/2;
-    _ymax = _final_max_circle_point.ry() + y_diff/2;
+    _ymin = _final_max_circle_point.ry() - y_diff;
+    _ymax = _final_max_circle_point.ry() + y_diff;
 
 }
 
